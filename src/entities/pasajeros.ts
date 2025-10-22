@@ -1,42 +1,39 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
-@Entity("pasajero")
-export class pasajero {
-  @PrimaryGeneratedColumn()
-  id!: number;
+@Index("correo", ["correo"], { unique: true })
+@Index("fk_pasajero_detalle", ["idDetalleVueloFk"], {})
+@Entity("pasajeros", { schema: "senasoft" })
+export class Pasajeros {
+  @Column("varchar", { primary: true, name: "id_pasajero", length: 20 })
+  idPasajero!: string;
 
-  @Column({ type: "varchar", length: 100 })
-  nombre!: string;
+  @Column("varchar", { name: "nombres", length: 191 })
+  nombres!: string;
 
-  @Column({ type: "varchar", length: 100 })
-  apellido!: string;
+  @Column("varchar", { name: "primer_apellido", length: 191 })
+  primerApellido!: string;
 
-  @Column({ type: "varchar", length: 100, unique: true })
-  email!: string;
+  @Column("varchar", { name: "segundo_apellido", length: 191 })
+  segundoApellido!: string;
 
-  @Column({ type: "varchar", length: 255 })
-  password!: string;
+  @Column("int", { name: "genero" })
+  genero!: number;
 
-  @Column({ type: "varchar", length: 20, nullable: true })
-  telefono?: string;
+  @Column("varchar", { name: "tipo_doc", length: 25 })
+  tipoDoc!: string;
 
-  @Column({ type: "date", nullable: true })
-  fechaNacimiento?: Date;
+  @Column("varchar", { name: "numero_doc", length: 15 })
+  numeroDoc!: string;
 
-  @Column({ type: "boolean", default: true })
-  activo!: boolean;
+  @Column("int", { name: "condicion_infante" })
+  condicionInfante!: number;
 
-  @CreateDateColumn()
-  fechaCreacion!: Date;
+  @Column("varchar", { name: "celular", length: 15 })
+  celular!: string;
 
-  @UpdateDateColumn()
-  fechaActualizacion!: Date;
+  @Column("varchar", { name: "correo", unique: true, length: 191 })
+  correo!: string;
+
+  @Column("varchar", { name: "id_detalle_vuelo_FK", nullable: true, length: 5 })
+  idDetalleVueloFk!: string | null;
 }
